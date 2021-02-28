@@ -41,10 +41,10 @@ data ChartStyle a = ChartStyle { chartStyleImageWidth :: a
                                }
 
 instance Fractional a => Default (ChartStyle a) where
-  def = ChartStyle { chartStyleImageWidth = 1600.0
+  def = ChartStyle { chartStyleImageWidth = 1200.0
                    , chartStyleImageHeight = 400.0
                    , chartStyleScaleX = 3.5
-                   , chartStylePad = 0.2
+                   , chartStylePad = 0.1
                    , chartStyleXLabelFontSize = 0.04
                    , chartStyleYLabelFontSize = 0.04
                    , chartStyleYLabelInterval = 5.0
@@ -83,7 +83,7 @@ draw style layers (pathHigh, pathLow) items = do
     lowChart = chart blue highLowLow
 
     chart :: Colour Double -> (forall a. HighLow a -> a) -> Diagram SVG
-    chart color select = content # pad (1.0 + chartStylePad style)
+    chart color select = content # centerXY # pad (1.0 + chartStylePad style)
       where
         content = yl ||| (((frameLines <> bars) # scaleX (chartStyleScaleX style) ||| legend style color layers) === xl)
         bars = rangesChart style color temperatureBound ((select . chartItemMedian &&& select . chartItemRange) <$> items)
