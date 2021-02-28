@@ -1,3 +1,5 @@
 .stack-work/
 temperature-chart.cabal
 *~
+output/
+data.csv
