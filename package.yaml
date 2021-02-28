@@ -22,4 +22,10 @@ executables:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
+    - colour
+    - containers
+    - diagrams-lib
+    - diagrams-svg
     - japanese-calendar
+    - split
+    - time
