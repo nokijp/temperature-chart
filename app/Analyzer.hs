@@ -7,8 +7,6 @@ module Analyzer
 import Control.Arrow
 import Data.Ratio
 import Data.List
-import Data.Map (Map)
-import qualified Data.Map as M
 import Data.Time.JapaneseCalendar
 import GHC.Exts
 
@@ -25,11 +23,11 @@ splitRange chunkSizes xs = ranges
     separatorPositions = scanl (+) 0 $ (/ sum chunkSizes) <$> chunkSizes
     maxIndex = length xs - 1
 
-accumulateSolarTerm :: [Observed a] -> Map SolarTerm [HighLow a]
-accumulateSolarTerm = groupMap (fst . latestSolarTerm jst . observedDate) observedTemperature
+accumulateSolarTerm :: [Observed a] -> [(String, [HighLow a])]
+accumulateSolarTerm observeds = first toJapaneseName <$> groupList (fst . latestSolarTerm jst . observedDate) observedTemperature observeds
 
-groupMap :: Ord k => (a -> k) -> (a -> v) -> [a] -> Map k [v]
-groupMap toKey toValue xs = M.fromList keyValues
+groupList :: Ord k => (a -> k) -> (a -> v) -> [a] -> [(k, [v])]
+groupList toKey toValue xs = keyValues
   where
     keyValues = (fst . head &&& fmap snd) <$> groupWith fst keyValuePairs
     keyValuePairs = (toKey &&& toValue) <$> xs

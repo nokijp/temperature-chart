@@ -23,7 +23,6 @@ executables:
     - -with-rtsopts=-N
     dependencies:
     - colour
-    - containers
     - diagrams-lib
     - diagrams-svg
     - japanese-calendar
