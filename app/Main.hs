@@ -22,7 +22,8 @@ main = do
   mapM_ (hPutStrLn stderr . ("ignored: " ++)) ignoredLines
 
   let
-    items = toItem <$> accumulateSolarTerm observeds
+    items = toItem <$> accumulateMonthPart observeds
+    --items = toItem <$> accumulateSolarTerm observeds
     toItem (label, temps) = let
                               hs = highLowHigh <$> temps
                               ls = highLowLow <$> temps
